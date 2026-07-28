@@ -50,3 +50,9 @@ HEALTHCHECK --interval=10s --timeout=3s --start-period=15s --retries=5 \
   CMD wget -qO- http://127.0.0.1:4000/api/v1/health/ready > /dev/null || exit 1
 
 CMD ["node", "dist/main.js"]
+
+FROM operations AS hosted
+
+EXPOSE 4000
+
+CMD ["sh", "-c", "node node_modules/prisma/build/index.js migrate deploy --schema prisma/schema.prisma && node -r ts-node/register prisma/seed.ts && exec node dist/main.js"]

@@ -78,6 +78,7 @@ services:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
+      target: runtime
     environment: *api-environment
     ports:
       - '${PRODUCTION_API_PORT:-4000}:4000'

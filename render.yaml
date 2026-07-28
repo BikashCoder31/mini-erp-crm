@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: mini-erp-crm-api
+    runtime: docker
+    repo: https://github.com/BikashCoder31/mini-erp-crm
+    branch: main
+    plan: free
+    region: singapore
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/v1/health/ready
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: API_PREFIX
+        value: api/v1
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN_SECONDS
+        value: 28800
+      - key: JWT_ISSUER
+        value: mini-erp-api
+      - key: JWT_AUDIENCE
+        value: mini-erp-web
+      - key: CORS_ORIGINS
+        sync: false
+      - key: LOG_LEVEL
+        value: info
+      - key: ADMIN_SEED_EMAIL
+        value: admin@example.com
+      - key: ADMIN_SEED_PASSWORD
+        sync: false
+      - key: SALES_SEED_EMAIL
+        value: sales@example.com
+      - key: SALES_SEED_PASSWORD
+        sync: false
+      - key: WAREHOUSE_SEED_EMAIL
+        value: warehouse@example.com
+      - key: WAREHOUSE_SEED_PASSWORD
+        sync: false
+      - key: ACCOUNTS_SEED_EMAIL
+        value: accounts@example.com
+      - key: ACCOUNTS_SEED_PASSWORD
+        sync: false
