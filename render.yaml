@@ -46,7 +46,7 @@ services:
       - key: JWT_AUDIENCE
         value: mini-erp-web
       - key: CORS_ORIGINS
-        sync: false
+        value: https://mini-erp-crm-web.onrender.com
       - key: LOG_LEVEL
         value: info
       - key: ADMIN_SEED_EMAIL
