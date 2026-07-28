@@ -1,0 +1,105 @@
+{
+  "generated": "2026-07-28",
+  "project": "Mini ERP + CRM Operations Portal",
+  "documentation_status": "Complete",
+  "application_implementation_status": "Complete",
+  "numbered_document_count": 12,
+  "files": [
+    {
+      "file": "00_DOCUMENTATION_INDEX.md",
+      "lines": 416,
+      "words": 2159,
+      "bytes": 16668,
+      "sha256": "c7f63e4a1a4474e1da7c619a805aafd7a0c3bcabaff424c98c8726974402ab5a"
+    },
+    {
+      "file": "01_REQUIREMENTS_SCOPE_AND_ARCHITECTURE.md",
+      "lines": 1462,
+      "words": 6383,
+      "bytes": 45020,
+      "sha256": "87776e484e3cb476c65635727c7843818ba003a7c637748ebaacaae48d4f830d"
+    },
+    {
+      "file": "02_DATABASE_SCHEMA_AND_API_CONTRACTS.md",
+      "lines": 1392,
+      "words": 5434,
+      "bytes": 43864,
+      "sha256": "11995d15479de6cdac57229ce9b3b7b28ef5e32b3fe01d794ccf4f42d416c149"
+    },
+    {
+      "file": "03_PROJECT_INITIALIZATION_AND_FOUNDATION.md",
+      "lines": 773,
+      "words": 2797,
+      "bytes": 21336,
+      "sha256": "332a5e9d003a8b96f15f4c023618895b3ac36fd6bd202875485dc7aa1950b44a"
+    },
+    {
+      "file": "04_AUTHENTICATION_AND_ROLE_ACCESS.md",
+      "lines": 597,
+      "words": 2768,
+      "bytes": 18583,
+      "sha256": "88bf98b8df19c9bb40a5c6d3d12dc02b9c16c52eb7f82e61af0c653625772ce5"
+    },
+    {
+      "file": "05_CUSTOMER_CRM_IMPLEMENTATION.md",
+      "lines": 682,
+      "words": 2766,
+      "bytes": 19082,
+      "sha256": "3dc80bd6824025dd75076a4f962a5440140dfafd1a3f5f4276ea98e5d319798b"
+    },
+    {
+      "file": "06_PRODUCT_AND_INVENTORY_IMPLEMENTATION.md",
+      "lines": 703,
+      "words": 2710,
+      "bytes": 19893,
+      "sha256": "429352be2639a3857b8ca4190d482fc5b00b96ba31978a3284cc94a579f64fc0"
+    },
+    {
+      "file": "07_SALES_CHALLAN_IMPLEMENTATION.md",
+      "lines": 1449,
+      "words": 5176,
+      "bytes": 37196,
+      "sha256": "23f45c53890544f0d8f7deea8b24cea39c170e5cd26d2f4c0fb9737ddb2dcbef"
+    },
+    {
+      "file": "08_FRONTEND_INTEGRATION_AND_RESPONSIVE_UI.md",
+      "lines": 635,
+      "words": 2863,
+      "bytes": 20426,
+      "sha256": "c0d6c4f8ec84d85b60fe2113200af4672da42d608b2f2ac1aa574648aff4daf0"
+    },
+    {
+      "file": "09_TESTING_SECURITY_AND_QUALITY.md",
+      "lines": 958,
+      "words": 3798,
+      "bytes": 26333,
+      "sha256": "8a74382e0e015e4c7dca4a2828b1d696dc73d83a6f8e56c5231ab7c5165796ae"
+    },
+    {
+      "file": "10_DEPLOYMENT_AND_OPERATIONS.md",
+      "lines": 754,
+      "words": 3184,
+      "bytes": 21794,
+      "sha256": "9d4a1315c7b85f71dddffc0416264eb4d628c639e99c7349946152e3c79f9f3b"
+    },
+    {
+      "file": "11_SUBMISSION_AND_DEMONSTRATION.md",
+      "lines": 872,
+      "words": 3847,
+      "bytes": 27547,
+      "sha256": "da1b67d8fed8f8f8c1738e600a89d54e0fa97d4e272b1ea311c9fc41aadd3166"
+    },
+    {
+      "file": "COMPLETE_DOCUMENTATION_BUNDLE.md",
+      "lines": 10794,
+      "words": 44187,
+      "bytes": 320759,
+      "sha256": "b906f254a1fe1409d08d8003d074f31716608b04c8bc6aa606c782bee217be71"
+    }
+  ],
+  "validation": {
+    "errors": [],
+    "warnings": [],
+    "passed": true
+  }
+}

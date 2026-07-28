@@ -1,0 +1,110 @@
+name: mini-erp-production
+
+x-api-environment: &api-environment
+  NODE_ENV: production
+  HOST: 0.0.0.0
+  PORT: 4000
+  API_PREFIX: api/v1
+  DATABASE_URL: postgresql://${PRODUCTION_POSTGRES_USER:-mini_erp}:${PRODUCTION_POSTGRES_PASSWORD:?Set PRODUCTION_POSTGRES_PASSWORD}@postgres:5432/${PRODUCTION_POSTGRES_DB:-mini_erp_production}?schema=public
+  JWT_SECRET: ${PRODUCTION_JWT_SECRET:?Set PRODUCTION_JWT_SECRET}
+  JWT_EXPIRES_IN_SECONDS: ${JWT_EXPIRES_IN_SECONDS:-28800}
+  JWT_ISSUER: ${JWT_ISSUER:-mini-erp-api}
+  JWT_AUDIENCE: ${JWT_AUDIENCE:-mini-erp-web}
+  CORS_ORIGINS: ${PRODUCTION_CORS_ORIGINS:-http://localhost:8080}
+  LOG_LEVEL: ${LOG_LEVEL:-info}
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${PRODUCTION_POSTGRES_DB:-mini_erp_production}
+      POSTGRES_USER: ${PRODUCTION_POSTGRES_USER:-mini_erp}
+      POSTGRES_PASSWORD: ${PRODUCTION_POSTGRES_PASSWORD:?Set PRODUCTION_POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${PRODUCTION_POSTGRES_USER:-mini_erp} -d ${PRODUCTION_POSTGRES_DB:-mini_erp_production}',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: operations
+    environment: *api-environment
+    command:
+      [
+        'node',
+        'node_modules/prisma/build/index.js',
+        'migrate',
+        'deploy',
+        '--schema',
+        'prisma/schema.prisma',
+      ]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+
+  seed:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: operations
+    environment:
+      <<: *api-environment
+      ADMIN_SEED_EMAIL: ${ADMIN_SEED_EMAIL:-admin@example.com}
+      ADMIN_SEED_PASSWORD: ${ADMIN_SEED_PASSWORD:?Set ADMIN_SEED_PASSWORD}
+      SALES_SEED_EMAIL: ${SALES_SEED_EMAIL:-sales@example.com}
+      SALES_SEED_PASSWORD: ${SALES_SEED_PASSWORD:?Set SALES_SEED_PASSWORD}
+      WAREHOUSE_SEED_EMAIL: ${WAREHOUSE_SEED_EMAIL:-warehouse@example.com}
+      WAREHOUSE_SEED_PASSWORD: ${WAREHOUSE_SEED_PASSWORD:?Set WAREHOUSE_SEED_PASSWORD}
+      ACCOUNTS_SEED_EMAIL: ${ACCOUNTS_SEED_EMAIL:-accounts@example.com}
+      ACCOUNTS_SEED_PASSWORD: ${ACCOUNTS_SEED_PASSWORD:?Set ACCOUNTS_SEED_PASSWORD}
+    command: ['node', '-r', 'ts-node/register', 'prisma/seed.ts']
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: 'no'
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment: *api-environment
+    ports:
+      - '${PRODUCTION_API_PORT:-4000}:4000'
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:4000/api/v1/health/ready']
+      interval: 10s
+      timeout: 3s
+      start_period: 15s
+      retries: 5
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_BASE_URL: ${PRODUCTION_WEB_API_BASE_URL:-http://localhost:4000/api/v1}
+        VITE_APP_NAME: ${VITE_APP_NAME:-Mini ERP + CRM}
+    ports:
+      - '${PRODUCTION_WEB_PORT:-8080}:8080'
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

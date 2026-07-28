@@ -1,0 +1,39 @@
+{
+  "name": "mini-erp-crm",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter ./apps/* dev",
+    "dev:api": "pnpm --filter api start:dev",
+    "dev:web": "pnpm --filter web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:ci": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:postman:validate && pnpm build",
+    "test:integration": "pnpm --filter api test:integration",
+    "test:concurrency": "pnpm --filter api test:concurrency",
+    "test:postman:validate": "node scripts/validate-postman-package.mjs",
+    "docs:bundle": "node scripts/generate-documentation-bundle.mjs",
+    "prod:config": "docker compose --env-file .env.production -p mini-erp-production -f docker-compose.production.yml config --quiet",
+    "prod:up": "docker compose --env-file .env.production -p mini-erp-production -f docker-compose.production.yml up -d --build",
+    "prod:ps": "docker compose --env-file .env.production -p mini-erp-production -f docker-compose.production.yml ps",
+    "prod:logs": "docker compose --env-file .env.production -p mini-erp-production -f docker-compose.production.yml logs -f",
+    "prod:down": "docker compose --env-file .env.production -p mini-erp-production -f docker-compose.production.yml down",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "db:generate": "pnpm --filter api prisma:generate",
+    "db:migrate": "pnpm --filter api prisma:migrate",
+    "db:seed": "pnpm --filter api prisma:seed"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}

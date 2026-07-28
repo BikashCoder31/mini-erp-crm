@@ -1,0 +1,56 @@
+export const CHALLAN_LIST_SELECT = {
+  id: true,
+  challanNumber: true,
+  status: true,
+  totalQuantity: true,
+  totalAmount: true,
+  createdAt: true,
+  confirmedAt: true,
+  customer: {
+    select: { id: true, name: true, businessName: true },
+  },
+  createdBy: { select: { id: true, name: true } },
+  _count: { select: { items: true } },
+} as const;
+
+export const CHALLAN_DETAIL_SELECT = {
+  id: true,
+  sequenceNumber: true,
+  challanNumber: true,
+  status: true,
+  totalQuantity: true,
+  totalAmount: true,
+  confirmedAt: true,
+  cancelledAt: true,
+  cancellationReason: true,
+  createdAt: true,
+  updatedAt: true,
+  customer: {
+    select: {
+      id: true,
+      name: true,
+      businessName: true,
+      mobileNumber: true,
+      email: true,
+      address: true,
+    },
+  },
+  items: {
+    orderBy: { lineNumber: 'asc' as const },
+    select: {
+      id: true,
+      productId: true,
+      lineNumber: true,
+      productNameSnapshot: true,
+      productSkuSnapshot: true,
+      productCategorySnapshot: true,
+      unitPriceSnapshot: true,
+      warehouseLocationSnapshot: true,
+      quantity: true,
+      lineTotal: true,
+    },
+  },
+  createdBy: { select: { id: true, name: true, role: true } },
+  confirmedBy: { select: { id: true, name: true, role: true } },
+  cancelledBy: { select: { id: true, name: true, role: true } },
+} as const;

@@ -1,0 +1,675 @@
+{
+  "info": {
+    "_postman_id": "328303df-c896-4bfd-a9ca-25d5cc865865",
+    "name": "Mini ERP + CRM",
+    "description": "Self-chaining assessment collection for the verified Mini ERP + CRM API. Run folders in order with the supplied local environment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "runSuffix", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "salesToken", "value": "" },
+    { "key": "warehouseToken", "value": "" },
+    { "key": "accountsToken", "value": "" },
+    { "key": "customerId", "value": "" },
+    { "key": "productId", "value": "" },
+    { "key": "challanId", "value": "" },
+    { "key": "insufficientChallanId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "00 Health",
+      "item": [
+        {
+          "name": "Aggregate readiness",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": ["pm.collectionVariables.set('runSuffix', Date.now().toString());"]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('API and database are ready', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().data.status).to.eql('ready');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{baseUrl}}/health",
+            "description": "Public aggregate readiness endpoint."
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 Auth",
+      "item": [
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Admin authenticated', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('adminToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"{{adminEmail}}\",\"password\":\"{{adminPassword}}\"}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Login Sales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Sales authenticated', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('salesToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"{{salesEmail}}\",\"password\":\"{{salesPassword}}\"}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Login Warehouse",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Warehouse authenticated', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('warehouseToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"{{warehouseEmail}}\",\"password\":\"{{warehousePassword}}\"}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Login Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Accounts authenticated', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('accountsToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"{{accountsEmail}}\",\"password\":\"{{accountsPassword}}\"}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Current Sales user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Token resolves to Sales', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().data.role).to.eql('SALES');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{salesToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Customers",
+      "item": [
+        {
+          "name": "Create customer as Sales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Customer created', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('customerId', pm.response.json().data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Postman Customer {{runSuffix}}\",\"mobileNumber\":\"+977 980-000-0000\",\"email\":\"postman-{{runSuffix}}@example.com\",\"businessName\":\"Postman Wholesale {{runSuffix}}\",\"customerType\":\"WHOLESALE\",\"address\":\"Kathmandu Postman assessment address\",\"status\":\"ACTIVE\",\"followUpDate\":\"2026-12-31T00:00:00.000Z\",\"notes\":\"Created by the assessment Postman collection.\"}"
+            },
+            "url": "{{baseUrl}}/customers"
+          }
+        },
+        {
+          "name": "Add follow-up as Sales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Follow-up appended', () => pm.response.to.have.status(201));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"note\":\"Postman assessment follow-up completed.\",\"nextFollowUpDate\":\"2027-01-15T00:00:00.000Z\"}"
+            },
+            "url": "{{baseUrl}}/customers/{{customerId}}/follow-ups"
+          }
+        },
+        {
+          "name": "Read customer as Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Accounts can read customer', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accountsToken}}" }],
+            "url": "{{baseUrl}}/customers/{{customerId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Products",
+      "item": [
+        {
+          "name": "Create product as Warehouse",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Product created with opening stock', function () {",
+                  "  pm.response.to.have.status(201);",
+                  "  pm.expect(pm.response.json().data.currentStock).to.eql(10);",
+                  "});",
+                  "pm.collectionVariables.set('productId', pm.response.json().data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{warehouseToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Postman Cable {{runSuffix}}\",\"sku\":\"PM-{{runSuffix}}\",\"category\":\"Assessment\",\"unitPrice\":\"125.50\",\"openingStock\":10,\"minimumStockAlertQuantity\":3,\"warehouseLocation\":\"Rack PM-1\"}"
+            },
+            "url": "{{baseUrl}}/products"
+          }
+        },
+        {
+          "name": "Read product as Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Accounts can read product', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accountsToken}}" }],
+            "url": "{{baseUrl}}/products/{{productId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Inventory",
+      "item": [
+        {
+          "name": "Sales stock write is forbidden",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Sales receives 403', () => pm.response.to.have.status(403));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"movementType\":\"IN\",\"quantity\":1,\"reason\":\"Authorization proof\"}"
+            },
+            "url": "{{baseUrl}}/products/{{productId}}/stock-movements"
+          }
+        },
+        {
+          "name": "Record stock IN as Warehouse",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Warehouse stock IN succeeds', function () {",
+                  "  pm.response.to.have.status(201);",
+                  "  pm.expect(pm.response.json().data.balanceAfter).to.eql(15);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{warehouseToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"movementType\":\"IN\",\"quantity\":5,\"reason\":\"Postman assessment receipt\"}"
+            },
+            "url": "{{baseUrl}}/products/{{productId}}/stock-movements"
+          }
+        },
+        {
+          "name": "Insufficient stock OUT is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Stock cannot become negative', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{warehouseToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"movementType\":\"OUT\",\"quantity\":999999,\"reason\":\"Negative stock protection proof\"}"
+            },
+            "url": "{{baseUrl}}/products/{{productId}}/stock-movements"
+          }
+        },
+        {
+          "name": "Read product movement ledger",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Ledger is readable', () => pm.response.to.have.status(200));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accountsToken}}" }],
+            "url": "{{baseUrl}}/products/{{productId}}/stock-movements"
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Challans",
+      "item": [
+        {
+          "name": "Create Draft as Sales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Draft created without stock mutation', function () {",
+                  "  pm.response.to.have.status(201);",
+                  "  pm.expect(pm.response.json().data.status).to.eql('DRAFT');",
+                  "});",
+                  "pm.collectionVariables.set('challanId', pm.response.json().data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"customerId\":\"{{customerId}}\",\"items\":[{\"productId\":\"{{productId}}\",\"quantity\":3}]}"
+            },
+            "url": "{{baseUrl}}/challans"
+          }
+        },
+        {
+          "name": "Confirm Draft as Sales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Confirmation is successful', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().data.status).to.eql('CONFIRMED');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": "{{baseUrl}}/challans/{{challanId}}/confirm"
+          }
+        },
+        {
+          "name": "Read Confirmed challan as Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Accounts read-only access succeeds', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accountsToken}}" }],
+            "url": "{{baseUrl}}/challans/{{challanId}}"
+          }
+        },
+        {
+          "name": "Repeated confirmation is blocked",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('No double deduction', () => pm.response.to.have.status(409));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": "{{baseUrl}}/challans/{{challanId}}/confirm"
+          }
+        },
+        {
+          "name": "Create insufficient Draft",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Insufficient scenario Draft created', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('insufficientChallanId', pm.response.json().data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"customerId\":\"{{customerId}}\",\"items\":[{\"productId\":\"{{productId}}\",\"quantity\":999999}]}"
+            },
+            "url": "{{baseUrl}}/challans"
+          }
+        },
+        {
+          "name": "Insufficient confirmation rolls back",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Insufficient stock returns conflict', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": "{{baseUrl}}/challans/{{insufficientChallanId}}/confirm"
+          }
+        },
+        {
+          "name": "Sales cannot cancel Confirmed challan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Sales receives 403', () => pm.response.to.have.status(403));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{salesToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"reason\":\"Sales must not reverse confirmed stock\"}"
+            },
+            "url": "{{baseUrl}}/challans/{{challanId}}/cancel"
+          }
+        },
+        {
+          "name": "Admin cancels Confirmed challan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Admin reversal succeeds once', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().data.status).to.eql('CANCELLED');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"reason\":\"Postman assessment cancellation proof\"}"
+            },
+            "url": "{{baseUrl}}/challans/{{challanId}}/cancel"
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Error and authorization examples",
+      "item": [
+        {
+          "name": "Unauthenticated customer list is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Missing token returns 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{baseUrl}}/customers"
+          }
+        },
+        {
+          "name": "Warehouse customer write is forbidden",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Warehouse receives 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{warehouseToken}}"
+              }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": "{{baseUrl}}/customers"
+          }
+        },
+        {
+          "name": "Repeated cancellation is blocked",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('No double restoration', () => pm.response.to.have.status(409));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"reason\":\"Repeated cancellation must fail\"}"
+            },
+            "url": "{{baseUrl}}/challans/{{challanId}}/cancel"
+          }
+        }
+      ]
+    }
+  ]
+}

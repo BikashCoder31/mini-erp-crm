@@ -1,0 +1,91 @@
+name: Quality gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: mini_erp_test
+          POSTGRES_USER: mini_erp
+          POSTGRES_PASSWORD: ci_database_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mini_erp -d mini_erp_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      NODE_ENV: test
+      HOST: 127.0.0.1
+      PORT: 4012
+      API_PREFIX: api/v1
+      DATABASE_URL: postgresql://mini_erp:ci_database_password@localhost:5432/mini_erp_test?schema=public
+      DATABASE_URL_TEST: postgresql://mini_erp:ci_database_password@localhost:5432/mini_erp_test?schema=public
+      JWT_SECRET: ci-only-jwt-secret-with-at-least-32-random-characters
+      JWT_EXPIRES_IN_SECONDS: 28800
+      JWT_ISSUER: mini-erp-api
+      JWT_AUDIENCE: mini-erp-web
+      CORS_ORIGINS: http://localhost:5173
+      LOG_LEVEL: warn
+      SEED_DEMO_DATA: 'false'
+      ADMIN_SEED_EMAIL: admin@example.com
+      ADMIN_SEED_PASSWORD: CiAdminPassword2026!
+      SALES_SEED_EMAIL: sales@example.com
+      SALES_SEED_PASSWORD: CiSalesPassword2026!
+      WAREHOUSE_SEED_EMAIL: warehouse@example.com
+      WAREHOUSE_SEED_PASSWORD: CiWarehousePassword2026!
+      ACCOUNTS_SEED_EMAIL: accounts@example.com
+      ACCOUNTS_SEED_PASSWORD: CiAccountsPassword2026!
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.9.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm db:generate
+
+      - name: Apply migrations
+        run: pnpm --filter api prisma:migrate:deploy
+
+      - name: Seed role accounts
+        run: pnpm db:seed
+
+      - name: Run static, unit, and build gates
+        run: pnpm test:ci
+
+      - name: Run PostgreSQL critical-flow tests
+        run: pnpm test:integration
+
+      - name: Verify documentation bundle is current
+        run: |
+          pnpm docs:bundle
+          git diff --exit-code -- docs/case-study
