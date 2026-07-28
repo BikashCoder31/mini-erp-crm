@@ -4,7 +4,7 @@ services:
     runtime: static
     repo: https://github.com/BikashCoder31/mini-erp-crm
     branch: main
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter web build
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter web build
     staticPublishPath: ./apps/web/dist
     autoDeployTrigger: checksPass
     envVars:
