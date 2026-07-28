@@ -1,5 +1,23 @@
 services:
   - type: web
+    name: mini-erp-crm-web
+    runtime: static
+    repo: https://github.com/BikashCoder31/mini-erp-crm
+    branch: main
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter web build
+    staticPublishPath: ./apps/web/dist
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://mini-erp-crm-api.onrender.com/api/v1
+      - key: VITE_APP_NAME
+        value: Mini ERP + CRM
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  - type: web
     name: mini-erp-crm-api
     runtime: docker
     repo: https://github.com/BikashCoder31/mini-erp-crm
