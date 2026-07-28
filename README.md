@@ -1,5 +1,7 @@
 # Mini ERP + CRM Operations Portal
 
+[![Quality gate](https://github.com/BikashCoder31/mini-erp-crm/actions/workflows/ci.yml/badge.svg)](https://github.com/BikashCoder31/mini-erp-crm/actions/workflows/ci.yml)
+
 A full-stack case-study application for a wholesale/distribution company. It
 combines customer CRM, product inventory, an immutable stock ledger, and
 transactional sales challans in a responsive role-aware interface.

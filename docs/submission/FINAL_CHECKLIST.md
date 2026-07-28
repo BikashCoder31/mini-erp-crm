@@ -23,8 +23,8 @@
 ## Candidate-owned closeout
 
 - [ ] Add candidate name and contact information.
-- [ ] Configure Git author identity and create the final commit.
-- [ ] Push to an evaluator-accessible repository.
+- [x] Configure Git author identity and create the verified implementation commit.
+- [x] Push to an evaluator-accessible repository.
 - [ ] Decide whether to deploy publicly; if so, verify HTTPS and replace local
       link wording.
 - [ ] Record the full demonstration using `RECORDING_SCRIPT.md`.

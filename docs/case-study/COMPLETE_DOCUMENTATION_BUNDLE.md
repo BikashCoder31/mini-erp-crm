@@ -35,9 +35,9 @@
 
 **Project:** Full Stack Developer Case Study — Mini ERP + CRM Operations Portal  
 **Document ID:** CASE-STUDY-DOC-INDEX  
-**Version:** 2.6  
+**Version:** 2.7  
 **Documentation status:** Complete  
-**Application implementation status:** Complete; source, clean-source rehearsal, CI, and local-production fallback are verified, while GitHub, recording, public hosting, and submission closeout remain pending  
+**Application implementation status:** Complete; source, clean-source rehearsal, CI, GitHub publication, and local-production fallback are verified, while recording, public hosting, and submission closeout remain pending  
 **Date:** 2026-07-28  
 **Documentation root:** `docs/case-study/`  
 **Source assignment:** `Full Stack Developer Case Study (1).pdf`
@@ -390,9 +390,9 @@ The detailed time plan remains in Step 1 and should be revisited only after docu
 - [x] Submission/demonstration.
 
 Core application implementation, clean-source rehearsal, test evidence, CI,
-and the local-production fallback are complete. Candidate identity, initial Git
-history, recording, repository publication, public hosting, and submission
-receipt remain pending.
+Git history, GitHub publication, and the local-production fallback are
+complete. Candidate identity, recording, public hosting, and submission receipt
+remain pending.
 
 ---
 
@@ -446,6 +446,7 @@ MANIFEST_SHA256.txt
 | 2.4 | 2026-07-28 | Added explicit package acceptance criteria and completed final validation prerequisites. |
 | 2.5 | 2026-07-28 | Reconciled the index with the implemented application, verified quality/local-production evidence, evaluator assets, and remaining candidate-owned closeout. |
 | 2.6 | 2026-07-28 | Completed the clean-source rehearsal and CI workflow, reconciled Steps 3, 9, and 10 as complete locally, and retained only external publication/submission closeout. |
+| 2.7 | 2026-07-29 | Published the sanitized public GitHub repository, recorded the verified implementation commit, and added a warning-free Node 24-compatible CI release workflow. |
 
 <!-- END 00_DOCUMENTATION_INDEX.md -->
 
@@ -9922,7 +9923,7 @@ Step 11 must assemble the verified implementation and deployment into a professi
 
 **Project:** Mini ERP + CRM Operations Portal  
 **Document ID:** CASE-STUDY-STEP-11  
-**Version:** 1.3  
+**Version:** 1.4  
 **Documentation status:** Complete  
 **Implementation status:** In Progress  
 **Date:** 2026-07-28  
@@ -9993,7 +9994,7 @@ This document must be completed with real values only after implementation and v
 | Full-flow recording | Required if not deployed; recommended regardless | Pending | — |
 | Screenshots | Recommended | Complete | `docs/screenshots/` |
 | Final test/evidence summary | Recommended | Complete | `docs/evidence/` |
-| Final commit/tag | Recommended | Pending | — |
+| Final commit/tag | Recommended | Complete | `case-study-submission-v1` |
 
 ---
 
@@ -10722,7 +10723,7 @@ Documentation is complete when:
 Final submission is complete only when:
 
 - [x] Manifest contains real verified values or clearly marked pending fields.
-- [ ] Repository and final commit are accessible.
+- [x] Repository and verified implementation commit are accessible.
 - [x] Deployment or local fallback works.
 - [x] Four credentials work.
 - [x] Postman/Swagger is usable.
@@ -10789,5 +10790,6 @@ Planning documentation being complete does not itself mean the application is co
 | 1.1 | 2026-07-28 | Aligned implementation status with the defined `Not Started` vocabulary; no code or implementation evidence is claimed. |
 | 1.2 | 2026-07-28 | Added the verified evaluator README, four-role credentials, 26-request Postman package, screenshot index, recording script, submission summary, final checklist, evidence matrix, and honest candidate-owned blockers. |
 | 1.3 | 2026-07-28 | Recorded complete Docker and GitHub Actions bonuses, clean-source rehearsal, verified application/documentation checks, and the remaining external GitHub, deployment, recording, and submission tasks. |
+| 1.4 | 2026-07-29 | Recorded the sanitized public repository, verified implementation commit, release tag, and successful GitHub Actions quality gate. |
 
 <!-- END 11_SUBMISSION_AND_DEMONSTRATION.md -->

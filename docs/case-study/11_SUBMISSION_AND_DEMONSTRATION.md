@@ -2,7 +2,7 @@
 
 **Project:** Mini ERP + CRM Operations Portal  
 **Document ID:** CASE-STUDY-STEP-11  
-**Version:** 1.3  
+**Version:** 1.4  
 **Documentation status:** Complete  
 **Implementation status:** In Progress  
 **Date:** 2026-07-28  
@@ -73,7 +73,7 @@ This document must be completed with real values only after implementation and v
 | Full-flow recording | Required if not deployed; recommended regardless | Pending | — |
 | Screenshots | Recommended | Complete | `docs/screenshots/` |
 | Final test/evidence summary | Recommended | Complete | `docs/evidence/` |
-| Final commit/tag | Recommended | Pending | — |
+| Final commit/tag | Recommended | Complete | `case-study-submission-v1` |
 
 ---
 
@@ -802,7 +802,7 @@ Documentation is complete when:
 Final submission is complete only when:
 
 - [x] Manifest contains real verified values or clearly marked pending fields.
-- [ ] Repository and final commit are accessible.
+- [x] Repository and verified implementation commit are accessible.
 - [x] Deployment or local fallback works.
 - [x] Four credentials work.
 - [x] Postman/Swagger is usable.
@@ -869,3 +869,4 @@ Planning documentation being complete does not itself mean the application is co
 | 1.1 | 2026-07-28 | Aligned implementation status with the defined `Not Started` vocabulary; no code or implementation evidence is claimed. |
 | 1.2 | 2026-07-28 | Added the verified evaluator README, four-role credentials, 26-request Postman package, screenshot index, recording script, submission summary, final checklist, evidence matrix, and honest candidate-owned blockers. |
 | 1.3 | 2026-07-28 | Recorded complete Docker and GitHub Actions bonuses, clean-source rehearsal, verified application/documentation checks, and the remaining external GitHub, deployment, recording, and submission tasks. |
+| 1.4 | 2026-07-29 | Recorded the sanitized public repository, verified implementation commit, release tag, and successful GitHub Actions quality gate. |

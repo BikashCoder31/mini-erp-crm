@@ -3,7 +3,8 @@
 **Project:** Mini ERP + CRM Operations Portal  
 **Candidate:** To be supplied by the candidate  
 **Repository:** https://github.com/BikashCoder31/mini-erp-crm  
-**Verified implementation commit:** Recorded after the initial publication
+**Verified implementation commit:** `73323e7ad715724ed9f610872b2f9ddb9c13aedc`  
+**Release tag:** `case-study-submission-v1`
 
 ## Access
 

@@ -2,9 +2,9 @@
 
 **Project:** Full Stack Developer Case Study — Mini ERP + CRM Operations Portal  
 **Document ID:** CASE-STUDY-DOC-INDEX  
-**Version:** 2.6  
+**Version:** 2.7  
 **Documentation status:** Complete  
-**Application implementation status:** Complete; source, clean-source rehearsal, CI, and local-production fallback are verified, while GitHub, recording, public hosting, and submission closeout remain pending  
+**Application implementation status:** Complete; source, clean-source rehearsal, CI, GitHub publication, and local-production fallback are verified, while recording, public hosting, and submission closeout remain pending  
 **Date:** 2026-07-28  
 **Documentation root:** `docs/case-study/`  
 **Source assignment:** `Full Stack Developer Case Study (1).pdf`
@@ -357,9 +357,9 @@ The detailed time plan remains in Step 1 and should be revisited only after docu
 - [x] Submission/demonstration.
 
 Core application implementation, clean-source rehearsal, test evidence, CI,
-and the local-production fallback are complete. Candidate identity, initial Git
-history, recording, repository publication, public hosting, and submission
-receipt remain pending.
+Git history, GitHub publication, and the local-production fallback are
+complete. Candidate identity, recording, public hosting, and submission receipt
+remain pending.
 
 ---
 
@@ -413,3 +413,4 @@ MANIFEST_SHA256.txt
 | 2.4 | 2026-07-28 | Added explicit package acceptance criteria and completed final validation prerequisites. |
 | 2.5 | 2026-07-28 | Reconciled the index with the implemented application, verified quality/local-production evidence, evaluator assets, and remaining candidate-owned closeout. |
 | 2.6 | 2026-07-28 | Completed the clean-source rehearsal and CI workflow, reconciled Steps 3, 9, and 10 as complete locally, and retained only external publication/submission closeout. |
+| 2.7 | 2026-07-29 | Published the sanitized public GitHub repository, recorded the verified implementation commit, and added a warning-free Node 24-compatible CI release workflow. |
