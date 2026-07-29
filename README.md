@@ -6,22 +6,21 @@ A full-stack case-study application for a wholesale/distribution company. It
 combines customer CRM, product inventory, an immutable stock ledger, and
 transactional sales challans in a responsive role-aware interface.
 
-## Verified local application
+## Live application
 
-- Repository: https://github.com/BikashCoder31/mini-erp-crm
-- Web: `http://localhost:5173`
-- API: `http://localhost:4000/api/v1`
-- Health: `http://localhost:4000/api/v1/health`
-- Swagger: `http://localhost:4000/api/docs`
-- Production-style Docker fallback: web on `http://localhost:8080`, API on
-  port 4000 by default
+- Repository: <https://github.com/BikashCoder31/mini-erp-crm>
+- Web: <https://mini-erp-crm-web.onrender.com>
+- API: <https://mini-erp-crm-api.onrender.com/api/v1>
+- Health: <https://mini-erp-crm-api.onrender.com/api/v1/health/ready>
+- Swagger: <https://mini-erp-crm-api.onrender.com/api/docs>
 
-No public HTTPS deployment is claimed. The complete local-production fallback
-has been smoke-tested and is documented below.
+The assessment deployment uses a Render static site, a Render Docker API, and
+Neon PostgreSQL. The complete Docker local-production fallback remains
+available and smoke-tested.
 
 ## Assessment credentials
 
-These credentials are for the local assessment environment only.
+These credentials are for the assessment environment only.
 
 | Role      | Email                   | Password source           | Primary demonstration                  |
 | --------- | ----------------------- | ------------------------- | -------------------------------------- |
@@ -212,11 +211,11 @@ pnpm prod:logs
 pnpm prod:down
 ```
 
-For a hosted deployment, use the same image build, run
-`pnpm --filter api prisma:migrate:deploy` as the release command, start the API
-with `pnpm --filter api start:prod`, and publish `apps/web/dist`. Set
-`VITE_API_BASE_URL` before the web build and set `CORS_ORIGINS` to the exact
-HTTPS frontend origin. All `VITE_` values are public.
+The hosted assessment deployment is declared in `render.yaml`. The API's
+hosted Docker stage applies committed Prisma migrations, runs the idempotent
+role seed, and starts the production server. The static web build receives the
+public API base URL at build time and the API allows only the exact frontend
+origin. Secret values remain in provider environment settings.
 
 ## Assumptions
 
@@ -244,8 +243,8 @@ HTTPS frontend origin. All `VITE_` values are public.
 - Confirmed cancellation is a full reversal; partial returns and credit notes
   are not implemented.
 - Customer and product records are retained instead of hard-deleted.
-- No public HTTPS deployment, availability SLA, centralized alerting, or formal
-  backup SLA is claimed.
+- The free assessment hosting has no availability, centralized alerting, or
+  formal backup SLA and may cold-start after inactivity.
 
 ## Repository structure
 
@@ -265,6 +264,8 @@ docker-compose.production.yml
 - Quality: `docs/evidence/quality/STEP_09_VERIFICATION.md`
 - Clean-source rehearsal:
   `docs/evidence/quality/CLEAN_SOURCE_REHEARSAL.md`
-- Deployment:
+- Local deployment:
   `docs/evidence/deployment/STEP_10_LOCAL_PRODUCTION_SMOKE.md`
+- Public deployment:
+  `docs/evidence/deployment/STEP_10_PUBLIC_DEPLOYMENT_SMOKE.md`
 - Complete implementation contract: `docs/case-study/`

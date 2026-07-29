@@ -2,10 +2,10 @@
 
 **Project:** Mini ERP + CRM Operations Portal  
 **Document ID:** CASE-STUDY-STEP-11  
-**Version:** 1.4  
+**Version:** 1.5
 **Documentation status:** Complete  
 **Implementation status:** In Progress  
-**Date:** 2026-07-28  
+**Date:** 2026-07-29
 **Depends on:** Steps 1–10  
 **Source assignment:** `Full Stack Developer Case Study (1).pdf`
 
@@ -58,10 +58,10 @@ This document must be completed with real values only after implementation and v
 | Deliverable | Required | Status | Final reference |
 |---|---:|---|---|
 | GitHub repository | Yes | Complete | `https://github.com/BikashCoder31/mini-erp-crm` |
-| Frontend URL | Yes unless local fallback accepted | Complete locally | `http://localhost:8080` Docker fallback |
-| Backend/API URL | Yes unless local fallback accepted | Complete locally | `http://localhost:4000/api/v1` default |
-| Health URL | Strongly recommended | Complete locally | `/api/v1/health` |
-| Swagger/OpenAPI URL | Recommended | Complete locally | `/api/docs` |
+| Frontend URL | Yes unless local fallback accepted | Complete | `https://mini-erp-crm-web.onrender.com` |
+| Backend/API URL | Yes unless local fallback accepted | Complete | `https://mini-erp-crm-api.onrender.com/api/v1` |
+| Health URL | Strongly recommended | Complete | `https://mini-erp-crm-api.onrender.com/api/v1/health/ready` |
+| Swagger/OpenAPI URL | Recommended | Complete | `https://mini-erp-crm-api.onrender.com/api/docs` |
 | Four role credentials | Yes | Complete | `README.md` evaluator section |
 | Postman collection | Yes/API docs alternative | Complete | `docs/postman/Mini_ERP_CRM.postman_collection.json` |
 | Postman environment | Recommended | Complete | `docs/postman/Local.postman_environment.json` |
@@ -70,10 +70,10 @@ This document must be completed with real values only after implementation and v
 | Architecture explanation | Yes | Complete | `README.md` |
 | Assumptions | Yes per documentation expectation | Complete | `README.md` |
 | Known limitations/incomplete work | Yes | Complete | `README.md` |
-| Full-flow recording | Required if not deployed; recommended regardless | Pending | — |
+| Full-flow recording | Recommended because deployment is complete | Pending | — |
 | Screenshots | Recommended | Complete | `docs/screenshots/` |
 | Final test/evidence summary | Recommended | Complete | `docs/evidence/` |
-| Final commit/tag | Recommended | Complete | `case-study-submission-v1` |
+| Final commit/tag | Recommended | Complete | `case-study-live-v1` |
 
 ---
 
@@ -563,11 +563,11 @@ Coverage percentages may be included only from the final report and should not r
 | Inventory concurrency | Pass | `docs/evidence/quality/STEP_09_VERIFICATION.md` |
 | Challan concurrency/rollback | Pass | `docs/evidence/quality/STEP_09_VERIFICATION.md` |
 | Frontend tests | Pass, 13 tests | `docs/evidence/quality/STEP_09_VERIFICATION.md` |
-| E2E/manual full flow | Pass locally | `docs/evidence/deployment/STEP_10_LOCAL_PRODUCTION_SMOKE.md` |
+| E2E/manual full flow | Pass locally; public login/module smoke passed | `docs/evidence/deployment/STEP_10_LOCAL_PRODUCTION_SMOKE.md`, `docs/evidence/deployment/STEP_10_PUBLIC_DEPLOYMENT_SMOKE.md` |
 | Security review | Pass with documented non-applicable advisory | `docs/evidence/quality/STEP_09_VERIFICATION.md` |
 | Responsive/accessibility | Responsive core flow pass; automated accessibility audit not claimed | Step 8 and deployment evidence |
 | Clean-source setup | Pass | `docs/evidence/quality/CLEAN_SOURCE_REHEARSAL.md` |
-| Production smoke | Pass for local-production fallback | `docs/evidence/deployment/STEP_10_LOCAL_PRODUCTION_SMOKE.md` |
+| Production smoke | Pass for public deployment and local-production fallback | `docs/evidence/deployment/STEP_10_PUBLIC_DEPLOYMENT_SMOKE.md`, `docs/evidence/deployment/STEP_10_LOCAL_PRODUCTION_SMOKE.md` |
 
 ---
 
@@ -835,12 +835,12 @@ Final submission record:
 | Field | Final value |
 |---|---|
 | Candidate | Pending |
-| Repository | Pending |
-| Frontend | `http://localhost:8080` local-production fallback |
-| API | `http://localhost:4000/api/v1` local-production default |
-| Swagger | `http://localhost:4000/api/docs` local-production default |
+| Repository | `https://github.com/BikashCoder31/mini-erp-crm` |
+| Frontend | `https://mini-erp-crm-web.onrender.com` |
+| API | `https://mini-erp-crm-api.onrender.com/api/v1` |
+| Swagger | `https://mini-erp-crm-api.onrender.com/api/docs` |
 | Recording | Pending |
-| Final commit | Pending |
+| Final commit | Release tag `case-study-live-v1` |
 | Submission time | Pending |
 | Receipt | Pending |
 
@@ -870,3 +870,4 @@ Planning documentation being complete does not itself mean the application is co
 | 1.2 | 2026-07-28 | Added the verified evaluator README, four-role credentials, 26-request Postman package, screenshot index, recording script, submission summary, final checklist, evidence matrix, and honest candidate-owned blockers. |
 | 1.3 | 2026-07-28 | Recorded complete Docker and GitHub Actions bonuses, clean-source rehearsal, verified application/documentation checks, and the remaining external GitHub, deployment, recording, and submission tasks. |
 | 1.4 | 2026-07-29 | Recorded the sanitized public repository, verified implementation commit, release tag, and successful GitHub Actions quality gate. |
+| 1.5 | 2026-07-29 | Recorded the verified public Render/Neon deployment, live URLs, exact CORS, and public browser/API smoke evidence. |

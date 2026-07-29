@@ -2,10 +2,10 @@
 
 **Project:** Mini ERP + CRM Operations Portal  
 **Document ID:** CASE-STUDY-STEP-10  
-**Version:** 1.5  
+**Version:** 1.6
 **Documentation status:** Complete  
 **Implementation status:** Complete  
-**Date:** 2026-07-28  
+**Date:** 2026-07-29
 **Depends on:** Steps 1–9  
 **Source assignment:** `Full Stack Developer Case Study (1).pdf`
 
@@ -13,7 +13,7 @@
 
 ## 1. Purpose
 
-This document defines how the verified application is run locally and deployed for assessment. It covers hosting choices, environment variables, PostgreSQL provisioning, migrations, seed data, build/start commands, frontend/API configuration, CORS, health checks, logs, smoke tests, rollback, free-host limitations, secrets, and the complete local-only fallback required by the assignment.
+This document defines how the verified application is run locally and deployed for assessment. It covers hosting choices, environment variables, PostgreSQL provisioning, migrations, seed data, build/start commands, frontend/API configuration, CORS, health checks, logs, smoke tests, rollback, free-host limitations, secrets, and the complete local fallback required by the assignment.
 
 Deployment must preserve the business behavior verified in Step 9. It is not the stage for adding major features.
 
@@ -42,7 +42,21 @@ Deployment must preserve the business behavior verified in Step 9. It is not the
 
 ---
 
-## 3. Recommended deployment architecture
+## 3. Deployment architecture
+
+The verified assessment deployment is:
+
+- Frontend: Render static site at
+  `https://mini-erp-crm-web.onrender.com`
+- API: Render Docker service at
+  `https://mini-erp-crm-api.onrender.com/api/v1`
+- Ready health:
+  `https://mini-erp-crm-api.onrender.com/api/v1/health/ready`
+- Swagger: `https://mini-erp-crm-api.onrender.com/api/docs`
+- Database: Neon PostgreSQL 17 in Singapore
+
+The architecture below records the provider-neutral plan that the verified
+Render/Neon deployment implements.
 
 ```text
 Browser
@@ -355,7 +369,7 @@ Avoid circular guessing of URLs by using provider-assigned API URL first, then f
 - [x] API health returns 200.
 - [x] Database reports reachable.
 - [x] Swagger/OpenAPI loads if intended.
-- [ ] HTTPS used.
+- [x] HTTPS used.
 - [x] Browser CORS works.
 - [x] No secret appears in client bundle or errors.
 
@@ -391,9 +405,10 @@ Avoid circular guessing of URLs by using provider-assigned API URL first, then f
 
 - [x] Critical pages usable in mobile emulation.
 
-All local-production checks were recorded on 2026-07-28. HTTPS remains
-unmarked because the accepted fallback is intentionally localhost-only; it is a
-required gate for the later public deployment.
+The full local-production flow was recorded on 2026-07-28. The public
+deployment was verified on 2026-07-29, including HTTPS, exact-origin CORS,
+four-role authentication, an authenticated module request, SPA deep-link
+fallback, and a warning-free browser console.
 
 ---
 
@@ -751,3 +766,4 @@ Step 11 must assemble the verified implementation and deployment into a professi
 | 1.3 | 2026-07-28 | Aligned implementation status with the defined `Not Started` vocabulary; no code or implementation evidence is claimed. |
 | 1.4 | 2026-07-28 | Added the verified full-stack Docker fallback, migration/seed orchestration, non-root runtimes, health/logging/CORS checks, production smoke evidence, and truthful external-hosting boundaries. |
 | 1.5 | 2026-07-28 | Reconciled the completed local-production smoke checklist and retained HTTPS as the explicit gate for the later public deployment. |
+| 1.6 | 2026-07-29 | Recorded the verified Render/Neon public deployment, live endpoints, HTTPS, exact-origin CORS, and public browser/API smoke results. |

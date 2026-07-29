@@ -2,10 +2,10 @@
 
 **Project:** Full Stack Developer Case Study — Mini ERP + CRM Operations Portal  
 **Document ID:** CASE-STUDY-DOC-INDEX  
-**Version:** 2.7  
+**Version:** 2.8
 **Documentation status:** Complete  
-**Application implementation status:** Complete; source, clean-source rehearsal, CI, GitHub publication, and local-production fallback are verified, while recording, public hosting, and submission closeout remain pending  
-**Date:** 2026-07-28  
+**Application implementation status:** Complete; source, clean-source rehearsal, CI, GitHub publication, public HTTPS deployment, and the local-production fallback are verified, while recording and submission closeout remain pending
+**Date:** 2026-07-29
 **Documentation root:** `docs/case-study/`  
 **Source assignment:** `Full Stack Developer Case Study (1).pdf`
 
@@ -16,9 +16,9 @@
 This index is the entry point for the complete case-study documentation set. It defines document authority, source labeling, status vocabulary, implementation order, evidence rules, file inventory, cross-step dependencies, and change control.
 
 The documents record both the implementation contract and the evidence gathered
-through the current local-production release candidate. Pending external or
-candidate-owned closeout is explicitly marked and must not be inferred as
-complete.
+through the current public assessment release. Pending candidate-owned
+recording and submission closeout are explicitly marked and must not be
+inferred as complete.
 
 ---
 
@@ -111,7 +111,7 @@ A document may be complete while its implementation remains Not Started.
 | 7 | `07_SALES_CHALLAN_IMPLEMENTATION.md` | Complete | Complete | Implements Draft/snapshot/numbering, atomic confirmation, rollback, cancellation, concurrency, UI, and evidence. |
 | 8 | `08_FRONTEND_INTEGRATION_AND_RESPONSIVE_UI.md` | Complete | Complete | Implements routes, navigation, role-aware actions, forms, query/error handling, and verified responsive UI. |
 | 9 | `09_TESTING_SECURITY_AND_QUALITY.md` | Complete | Complete | Records passing static, unit, integration, concurrency, browser, security, clean-source, and build gates. |
-| 10 | `10_DEPLOYMENT_AND_OPERATIONS.md` | Complete | Complete | Provides and verifies the accepted Docker local-production fallback; public HTTPS hosting remains the next external phase. |
+| 10 | `10_DEPLOYMENT_AND_OPERATIONS.md` | Complete | Complete | Verifies the public Render/Neon assessment deployment and the Docker local-production fallback. |
 | 11 | `11_SUBMISSION_AND_DEMONSTRATION.md` | Complete | In Progress | Provides README, credentials, Postman, screenshots, recording script, evidence, limitations, and closeout checklist. |
 
 ---
@@ -357,8 +357,8 @@ The detailed time plan remains in Step 1 and should be revisited only after docu
 - [x] Submission/demonstration.
 
 Core application implementation, clean-source rehearsal, test evidence, CI,
-Git history, GitHub publication, and the local-production fallback are
-complete. Candidate identity, recording, public hosting, and submission receipt
+Git history, GitHub publication, public hosting, and the local-production
+fallback are complete. Candidate identity, recording, and submission receipt
 remain pending.
 
 ---
@@ -414,3 +414,4 @@ MANIFEST_SHA256.txt
 | 2.5 | 2026-07-28 | Reconciled the index with the implemented application, verified quality/local-production evidence, evaluator assets, and remaining candidate-owned closeout. |
 | 2.6 | 2026-07-28 | Completed the clean-source rehearsal and CI workflow, reconciled Steps 3, 9, and 10 as complete locally, and retained only external publication/submission closeout. |
 | 2.7 | 2026-07-29 | Published the sanitized public GitHub repository, recorded the verified implementation commit, and added a warning-free Node 24-compatible CI release workflow. |
+| 2.8 | 2026-07-29 | Recorded the verified Render static frontend and Docker API, Neon PostgreSQL, exact production CORS, and public deployment smoke evidence. |
